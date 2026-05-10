@@ -37,7 +37,7 @@ import ffmpeg
 
 import saini as helper
 import globals
-from utils import progress_bar
+from utils import progress_bar, sanitize_filename
 from vars import API_ID, API_HASH, BOT_TOKEN, OWNER, CREDIT, AUTH_USERS, TOTAL_USERS, cookies_file_path
 from vars import api_url, api_token
 
@@ -244,7 +244,7 @@ async def drm_handler(bot: Client, m: Message):
                     oembed_url = f"https://www.youtube.com/oembed?url={url}&format=json"
                     response = requests.get(oembed_url)
                     audio_title = response.json().get('title', 'YouTube Video')
-                    audio_title = audio_title.replace("_", " ")
+                    audio_title = sanitize_filename(audio_title)
                     name = f'{audio_title[:60]}'
                     namef = f'{audio_title[:60]}'
                 else:

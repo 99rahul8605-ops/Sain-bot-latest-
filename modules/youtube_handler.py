@@ -9,6 +9,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import FloodWait
 from vars import CREDIT, cookies_file_path, AUTH_USERS
+from utils import sanitize_filename
 import globals
 
 def register_youtube_handlers(bot):
@@ -110,7 +111,7 @@ def register_youtube_handlers(bot):
                 oembed_url = f"https://www.youtube.com/oembed?url={url}&format=json"
                 response = requests.get(oembed_url)
                 audio_title = response.json().get('title', 'YouTube Video')       
-                audio_title = audio_title.replace("_", " ")
+                audio_title = sanitize_filename(audio_title)
                 name = f'{audio_title[:60]} {CREDIT}'        
                 name1 = f'{audio_title} {CREDIT}'
 
