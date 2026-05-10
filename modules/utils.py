@@ -2,22 +2,9 @@ import random #NIKHIL SAINI BOTS
 import time #NIKHIL SAINI BOTS
 import math #NIKHIL SAINI BOTS
 import os #NIKHIL SAINI BOTS
-import re #NIKHIL SAINI BOTS
 from vars import CREDIT #NIKHIL SAINI BOTS
 from pyrogram.errors import FloodWait #NIKHIL SAINI BOTS
 from datetime import datetime,timedelta #NIKHIL SAINI BOTS
-
-def sanitize_filename(name: str, max_length: int = 60) -> str: #NIKHIL SAINI BOTS
-    """Remove emojis and shell-dangerous characters from filenames.""" #NIKHIL SAINI BOTS
-    # Remove emojis and non-ASCII characters #NIKHIL SAINI BOTS
-    name = name.encode('ascii', 'ignore').decode('ascii') #NIKHIL SAINI BOTS
-    # Remove shell-dangerous characters: | & ; ` $ ( ) < > \ / " ' * ? [ ] { } ! # % ^ = + #NIKHIL SAINI BOTS
-    name = re.sub(r'[|&;`$()<>\\/"\'\*\?\[\]{}!#%^=+]', '', name) #NIKHIL SAINI BOTS
-    # Replace multiple spaces with single space #NIKHIL SAINI BOTS
-    name = re.sub(r'\s+', ' ', name).strip() #NIKHIL SAINI BOTS
-    # Replace multiple dots with single dot #NIKHIL SAINI BOTS
-    name = re.sub(r'\.+', '.', name) #NIKHIL SAINI BOTS
-    return name[:max_length].strip() #NIKHIL SAINI BOTS
 
 class Timer: #NIKHIL SAINI BOTS
     def __init__(self, time_between=5): #NIKHIL SAINI BOTS

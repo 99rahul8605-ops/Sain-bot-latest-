@@ -286,7 +286,7 @@ async def download_and_decrypt_video(url, cmd, name, key):
             return None  
 
 async def send_vid(bot: Client, m: Message, cc, filename, vidwatermark, thumb, name, prog, channel_id):
-    subprocess.run(['ffmpeg', '-i', filename, '-ss', '00:00:10', '-vframes', '1', f'{filename}.jpg'])
+    subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:10 -vframes 1 "{filename}.jpg"', shell=True)
     await prog.delete (True)
     reply1 = await bot.send_message(channel_id, f"**📩 Uploading Video 📩:-**\n<blockquote>**{name}**</blockquote>")
     reply = await m.reply_text(f"**Generate Thumbnail:**\n<blockquote>**{name}**</blockquote>")
@@ -301,11 +301,10 @@ async def send_vid(bot: Client, m: Message, cc, filename, vidwatermark, thumb, n
         else:
             w_filename = f"w_{filename}"
             font_path = "vidwater.ttf"
-            subprocess.run([
-                'ffmpeg', '-i', filename,
-                '-vf', f"drawtext=fontfile={font_path}:text='{vidwatermark}':fontcolor=white@0.3:fontsize=h/6:x=(w-text_w)/2:y=(h-text_h)/2",
-                '-codec:a', 'copy', w_filename
-            ])
+            subprocess.run(
+                f'ffmpeg -i "{filename}" -vf "drawtext=fontfile={font_path}:text=\'{vidwatermark}\':fontcolor=white@0.3:fontsize=h/6:x=(w-text_w)/2:y=(h-text_h)/2" -codec:a copy "{w_filename}"',
+                shell=True
+            )
             
     except Exception as e:
         await m.reply_text(str(e))
