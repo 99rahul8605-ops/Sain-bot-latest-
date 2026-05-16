@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy all files from the current directory to the container's /app directory
 COPY . .
 
-# Install necessary system dependencies + Bento4 + Node.js
+# Install necessary system dependencies + Bento4 + Deno
 RUN apk add --no-cache \
     gcc \
     libffi-dev \
@@ -17,8 +17,8 @@ RUN apk add --no-cache \
     make \
     g++ \
     cmake \
-    nodejs \
-    npm && \
+    curl \
+    unzip && \
     # Build and install mp4decrypt from Bento4
     wget -q https://github.com/axiomatic-systems/Bento4/archive/v1.6.0-639.zip && \
     unzip v1.6.0-639.zip && \
@@ -29,7 +29,9 @@ RUN apk add --no-cache \
     make -j$(nproc) && \
     cp mp4decrypt /usr/local/bin/ && \
     cd ../.. && \
-    rm -rf Bento4-1.6.0-639 v1.6.0-639.zip
+    rm -rf Bento4-1.6.0-639 v1.6.0-639.zip && \
+    # Install Deno (JS runtime for yt‑dlp) – official script, auto‑picks correct binary
+    curl -fsSL https://deno.land/install.sh | DENO_INSTALL=/usr/local sh
 
 # Install Python dependencies
 RUN pip3 install --no-cache-dir --upgrade pip \
