@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy all files from the current directory to the container's /app directory
 COPY . .
 
-# Install necessary system dependencies + Bento4 + Deno
+# Install necessary system dependencies + Bento4 + Node.js
 RUN apk add --no-cache \
     gcc \
     libffi-dev \
@@ -17,8 +17,8 @@ RUN apk add --no-cache \
     make \
     g++ \
     cmake \
-    curl \
-    unzip && \
+    nodejs \
+    npm && \
     # Build and install mp4decrypt from Bento4
     wget -q https://github.com/axiomatic-systems/Bento4/archive/v1.6.0-639.zip && \
     unzip v1.6.0-639.zip && \
@@ -29,17 +29,7 @@ RUN apk add --no-cache \
     make -j$(nproc) && \
     cp mp4decrypt /usr/local/bin/ && \
     cd ../.. && \
-    rm -rf Bento4-1.6.0-639 v1.6.0-639.zip && \
-    # Install Deno (Alpine musl binary) – User-Agent avoids GitHub 403
-    DENO_VERSION=1.46.3 && \
-    curl -fsSL \
-      -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" \
-      "https://github.com/denoland/deno/releases/download/v${DENO_VERSION}/deno-x86_64-unknown-linux-musl.zip" \
-      -o deno.zip && \
-    unzip deno.zip && \
-    mv deno /usr/local/bin/deno && \
-    chmod +x /usr/local/bin/deno && \
-    rm deno.zip
+    rm -rf Bento4-1.6.0-639 v1.6.0-639.zip
 
 # Install Python dependencies
 RUN pip3 install --no-cache-dir --upgrade pip \
