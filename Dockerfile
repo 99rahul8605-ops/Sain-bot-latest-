@@ -30,9 +30,12 @@ RUN apk add --no-cache \
     cp mp4decrypt /usr/local/bin/ && \
     cd ../.. && \
     rm -rf Bento4-1.6.0-639 v1.6.0-639.zip && \
-    # Install Deno (single binary for Alpine/musl)
+    # Install Deno (Alpine musl binary) – User-Agent avoids GitHub 403
     DENO_VERSION=1.46.3 && \
-    curl -fsSL https://github.com/denoland/deno/releases/download/v${DENO_VERSION}/deno-x86_64-unknown-linux-musl.zip -o deno.zip && \
+    curl -fsSL \
+      -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" \
+      "https://github.com/denoland/deno/releases/download/v${DENO_VERSION}/deno-x86_64-unknown-linux-musl.zip" \
+      -o deno.zip && \
     unzip deno.zip && \
     mv deno /usr/local/bin/deno && \
     chmod +x /usr/local/bin/deno && \
